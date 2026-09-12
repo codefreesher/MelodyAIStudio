@@ -6,13 +6,18 @@ from pathlib import Path
 
 DEFAULT_RESOURCES = [
     {"id": "ollama", "name": "Ollama", "description": "AI model chạy local",
-     "official_url": "https://ollama.com/download/windows"},
+     "official_url": "https://ollama.com/download/windows",
+     "windows_url": "https://ollama.com/download/OllamaSetup.exe", "filename": "OllamaSetup.exe"},
     {"id": "ffmpeg", "name": "FFmpeg", "description": "Xử lý audio/video",
-     "official_url": "https://ffmpeg.org/download.html"},
+     "official_url": "https://ffmpeg.org/download.html",
+     "windows_url": "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip",
+     "filename": "ffmpeg-release-essentials.zip"},
     {"id": "python", "name": "Python Runtime", "description": "Chạy các model local",
      "official_url": "https://www.python.org/downloads/windows/"},
     {"id": "stable-diffusion", "name": "Stable Diffusion WebUI", "description": "Tạo ảnh local",
-     "official_url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/releases"},
+     "official_url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/releases",
+     "windows_url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/archive/refs/tags/v1.10.1.zip",
+     "filename": "stable-diffusion-webui-1.10.1.zip"},
     {"id": "tts-models", "name": "TTS Models", "description": "Giọng nói offline",
      "official_url": "https://huggingface.co/rhasspy/piper-voices/tree/main"},
 ]

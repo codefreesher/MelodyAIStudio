@@ -43,6 +43,9 @@ class ResourceController(QObject):
         if self.worker:
             return
         if action in _DOWNLOAD_ACTIONS and not (item.get("url") and item.get("sha256")):
+            if item.get("windows_url"):
+                self.start(item, action)
+                return
             official_url = QUrl(str(item.get("official_url", "")))
             if official_url.isValid() and official_url.scheme() == "https":
                 QDesktopServices.openUrl(official_url)

@@ -20,6 +20,39 @@ def verify_sha256(path: Path, expected: str) -> None:
 
 
 class DownloadService:
+    TRUSTED_HOSTS = {"ollama.com", "www.gyan.dev", "github.com"}
+
+    def download_official(
+        self, url: str, destination: Path, progress: Callable[[int], None],
+        cancel: threading.Event | None = None, limit: int = 2 * 1024**3,
+    ) -> Path:
+        """Download an official installer over TLS when no signed manifest exists."""
+        parsed = urlparse(url)
+        if parsed.scheme != "https" or parsed.hostname not in self.TRUSTED_HOSTS:
+            raise ValueError("Nguồn tải tự động chưa được tin cậy.")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        partial = destination.with_suffix(destination.suffix + ".part")
+        try:
+            with httpx.stream("GET", url, timeout=120, follow_redirects=True) as response:
+                response.raise_for_status()
+                total = int(response.headers.get("content-length", 0))
+                if total > limit:
+                    raise ValueError("Tệp vượt giới hạn tải.")
+                count = 0
+                with partial.open("wb") as output:
+                    for block in response.iter_bytes(65536):
+                        if cancel and cancel.is_set():
+                            raise ValueError("Đã hủy tải.")
+                        count += len(block)
+                        if count > limit:
+                            raise ValueError("Tệp vượt giới hạn tải.")
+                        output.write(block)
+                        progress(min(99, count * 100 // total) if total else 0)
+            partial.replace(destination)
+            progress(100)
+            return destination
+        finally:
+            partial.unlink(missing_ok=True)
     def download(
         self,
         url: str,

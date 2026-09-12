@@ -119,6 +119,14 @@ class ResourceItem(QFrame):
                 button.setToolTip("Mở trang tải chính thức của tài nguyên.")
             button.clicked.connect(self.download_requested.emit)
             self.trailing_layout.addWidget(button)
+            status = QLabel("Đã có trên máy" if self.item.get("status") == "installed" else "Cần tải")
+            status.setObjectName(
+                "resourceStatusInstalled" if self.item.get("status") == "installed"
+                else "resourceStatusUnconfigured"
+            )
+            self.trailing_layout.addWidget(status)
+            if self.item.get("status") == "installed":
+                button.hide()
 
     def _open_menu(self) -> None:
         menu = QMenu(self)

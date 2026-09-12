@@ -1,10 +1,12 @@
 """Verified staged installs, repair and scoped removal."""
 
 import shutil
+import sys
 import tempfile
 import threading
 from pathlib import Path
 
+from app.resources_manager.dependency_checker import DependencyChecker
 from app.resources_manager.extractor import extract_zip
 from app.resources_manager.resource_manifest import load_manifest
 from app.services.download_service import DownloadService, verify_sha256
@@ -16,10 +18,9 @@ class ResourceService:
         self.cancel_event = threading.Event()
 
     def list(self) -> list[dict]:
-        return [
-            dict(item, installed=(self.root / item["id"] / ".installed").exists())
-            for item in load_manifest(self.manifest)
-        ]
+        checker = DependencyChecker(self.root, self.downloads)
+        return [dict(item, status=checker.status(item["id"]), installed=checker.status(item["id"]) == "installed")
+                for item in load_manifest(self.manifest)]
 
     def perform(self, resource: dict, action: str, progress=lambda value: None) -> str:
         # Resolve trusted metadata again instead of trusting mutable UI rows.
@@ -30,7 +31,13 @@ class ResourceService:
             shutil.rmtree(destination, ignore_errors=False) if destination.exists() else None
             return "Đã gỡ tài nguyên."
         if not item.get("url") or not item.get("sha256"):
-            raise ValueError("Chưa cấu hình URL/SHA256. Nhập manifest tài nguyên đã kiểm duyệt.")
+            if sys.platform == "win32" and item.get("windows_url") and item.get("filename"):
+                target = self.downloads / item["filename"]
+                DownloadService().download_official(
+                    item["windows_url"], target, progress, self.cancel_event
+                )
+                return f"Đã tải {item['name']} vào thư mục Downloads của MelodyAI."
+            raise ValueError("Chưa có gói tự động phù hợp hệ điều hành/CPU này.")
         if action in ("download", "repair") or not archive.exists():
             DownloadService().download(item["url"], archive, item["sha256"], progress, self.cancel_event)
         verify_sha256(archive, item["sha256"])
