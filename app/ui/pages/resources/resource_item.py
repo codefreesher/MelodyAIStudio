@@ -112,11 +112,11 @@ class ResourceItem(QFrame):
                 self.trailing_layout.addWidget(version_label)
         else:
             self.menu_button = None
-            button = QPushButton("Tải xuống")
+            button = QPushButton("Tải xuống" if configured else "Tải chính thức")
             button.setObjectName("resourceDownloadButton")
             button.setCursor(Qt.CursorShape.PointingHandCursor)
             if not configured:
-                button.setToolTip("Admin chưa cấu hình file tải và mã SHA-256 cho tài nguyên này.")
+                button.setToolTip("Mở trang tải chính thức của tài nguyên.")
             button.clicked.connect(self.download_requested.emit)
             self.trailing_layout.addWidget(button)
 

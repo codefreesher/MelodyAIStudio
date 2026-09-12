@@ -92,11 +92,15 @@ class ComponentTests(unittest.TestCase):
         self.assertEqual(cancels, [True])
 
     def test_unconfigured_resource_still_has_download_action(self) -> None:
-        item = ResourceItem({"id": "ollama", "name": "Ollama", "installed": False})
+        item = ResourceItem({
+            "id": "ollama", "name": "Ollama", "installed": False,
+            "official_url": "https://ollama.com/download/windows",
+        })
         requested = []
         item.download_requested.connect(lambda: requested.append(True))
         button = item.findChild(QWidget, "resourceDownloadButton")
         self.assertIsNotNone(button)
+        self.assertEqual(button.text(), "Tải chính thức")
         button.click()
         self.assertEqual(requested, [True])
 

@@ -43,8 +43,13 @@ class ResourceController(QObject):
         if self.worker:
             return
         if action in _DOWNLOAD_ACTIONS and not (item.get("url") and item.get("sha256")):
+            official_url = QUrl(str(item.get("official_url", "")))
+            if official_url.isValid() and official_url.scheme() == "https":
+                QDesktopServices.openUrl(official_url)
+                self.page.toast.show_message("Đã mở trang tải chính thức.", "success")
+                return
             self.page.toast.show_message(
-                "Admin chưa cấu hình file tải và mã SHA-256 cho tài nguyên này.",
+                "Tài nguyên chưa có link tải chính thức.",
                 "error",
                 duration_ms=0,
             )

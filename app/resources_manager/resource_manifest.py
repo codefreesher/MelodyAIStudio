@@ -5,11 +5,16 @@ import re
 from pathlib import Path
 
 DEFAULT_RESOURCES = [
-    {"id": "ollama", "name": "Ollama", "description": "AI model chạy local"},
-    {"id": "ffmpeg", "name": "FFmpeg", "description": "Xử lý audio/video"},
-    {"id": "python", "name": "Python Runtime", "description": "Chạy các model local"},
-    {"id": "stable-diffusion", "name": "Stable Diffusion WebUI", "description": "Tạo ảnh local"},
-    {"id": "tts-models", "name": "TTS Models", "description": "Giọng nói offline"},
+    {"id": "ollama", "name": "Ollama", "description": "AI model chạy local",
+     "official_url": "https://ollama.com/download/windows"},
+    {"id": "ffmpeg", "name": "FFmpeg", "description": "Xử lý audio/video",
+     "official_url": "https://ffmpeg.org/download.html"},
+    {"id": "python", "name": "Python Runtime", "description": "Chạy các model local",
+     "official_url": "https://www.python.org/downloads/windows/"},
+    {"id": "stable-diffusion", "name": "Stable Diffusion WebUI", "description": "Tạo ảnh local",
+     "official_url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui/releases"},
+    {"id": "tts-models", "name": "TTS Models", "description": "Giọng nói offline",
+     "official_url": "https://huggingface.co/rhasspy/piper-voices/tree/main"},
 ]
 
 
