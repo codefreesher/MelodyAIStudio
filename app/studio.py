@@ -20,6 +20,7 @@ from app.models.user import User
 from app.providers.online.provider_manager import ProviderManager
 from app.resources_manager.process_manager import ProcessManager
 from app.security.credential_vault import CredentialVault
+from app.security.device_session import FEATURE_NAMES, DeviceSession
 from app.services.account_service import AccountService
 from app.services.ai_service import AIService
 from app.services.history_service import HistoryService
@@ -72,6 +73,7 @@ class StudioRuntime:
         vault = CredentialVault(paths.root / "config" / "vault")
         self.settings_service = SettingsService(self.settings, paths.root, application.sessions, vault)
         self.view = StudioWindow()
+        self.view.sidebar.logout_requested.connect(self.logout)
         self.profile_controller = ProfileController(
             self.view, self.view.sidebar, AccountService(application.auth_service.provider)
         )
@@ -173,6 +175,7 @@ class StudioRuntime:
         self.profile_controller.set_user(identity if isinstance(identity, User) else None)
         self.dashboard.greeting.setText(f"Xin chào, {username}!")
         self.view.navigate("dashboard")
+        self.apply_entitlements(identity)
         preferences = self.settings_service.load()
         if preferences.get("auto_update") and self.update_controller.owner and self.update_controller.repository:
             QTimer.singleShot(1000, self.update_controller.check)
@@ -184,12 +187,35 @@ class StudioRuntime:
         self.dashboard.greeting.setText(f"Xin chào, {user.username}!")
 
     def authorize(self, feature: str) -> None:
-        if isinstance(self.identity, License):
+        if isinstance(self.identity, DeviceSession):
+            if not self.identity.has_feature(feature):
+                raise ValueError("Gói sử dụng không bao gồm tính năng này.")
+        elif isinstance(self.identity, License):
             license = self.application.license_manager.load()
             if license is None or feature not in license.features:
                 raise ValueError("License không bao gồm tính năng này hoặc đã hết hiệu lực.")
         elif self.identity is None:
             raise ValueError("Vui lòng đăng nhập trước.")
+
+    def apply_entitlements(self, identity) -> None:
+        if not isinstance(identity, DeviceSession):
+            for route in ("music", "lyric", "audio", "image", "online_config", "offline_config"):
+                self.view.sidebar.items[route].setEnabled(True)
+            return
+        mapping = {
+            "music": "music", "lyric": "lyrics", "audio": "audio", "image": "image",
+            "online_config": "online_ai", "offline_config": "offline_ai",
+        }
+        for route, feature in mapping.items():
+            enabled = identity.has_feature(feature)
+            self.view.sidebar.items[route].setEnabled(enabled)
+            if route in self.dashboard.action_cards:
+                self.dashboard.action_cards[route].setEnabled(enabled)
+
+    def disable_entitlements(self) -> None:
+        if isinstance(self.identity, DeviceSession):
+            self.identity.features = {name: False for name in FEATURE_NAMES}
+            self.apply_entitlements(self.identity)
 
     def refresh(self, route: str) -> None:
         self.translation.apply(self.settings_service.load().get("language", "vi"))
@@ -230,6 +256,7 @@ class StudioRuntime:
         if not isinstance(self.identity, License):
             self.application.sessions.clear()
         self.identity = None
+        self.application.heartbeat.stop()
         for controller in self.generators:
             if controller.page.player:
                 controller.page.player.media.stop()

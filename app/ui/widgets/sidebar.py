@@ -99,6 +99,7 @@ class SidebarItem(ThemedButton):
 class Sidebar(QFrame):
     page_requested = Signal(str)
     profile_requested = Signal()
+    logout_requested = Signal()
 
     def __init__(self, parent: QWidget | None = None) -> None:
         super().__init__(parent)
@@ -144,9 +145,9 @@ class Sidebar(QFrame):
         self.profile.setObjectName("sidebarProfileText")
         self.profile.setWordWrap(True)
         profile_row.addWidget(self.profile, 1)
-        self.profile_button = IconButton(_navigation_icon("⚙"), "Sửa thông tin tài khoản")
+        self.profile_button = IconButton(_navigation_icon("↪"), "Đăng xuất")
         self.profile_button.setObjectName("sidebarProfileButton")
-        self.profile_button.clicked.connect(self.profile_requested.emit)
+        self.profile_button.clicked.connect(self.logout_requested.emit)
         profile_row.addWidget(self.profile_button)
         self.layout_box.addLayout(profile_row)
 
@@ -166,4 +167,4 @@ class Sidebar(QFrame):
     def set_profile(self, username: str, plan: str, editable: bool = True) -> None:
         self.avatar.setText(username[:1].upper())
         self.profile.setText(f"{username}\n{plan}")
-        self.profile_button.setEnabled(editable)
+        self.profile_button.setEnabled(True)

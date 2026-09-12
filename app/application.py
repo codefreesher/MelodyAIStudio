@@ -1,5 +1,7 @@
 """Own the Qt application and its top-level window."""
 
+import os
+
 from PySide6.QtCore import QThreadPool, QTimer
 from PySide6.QtWidgets import QApplication
 
@@ -38,22 +40,37 @@ class Application:
         login_page = LoginPage(self.window)
         self.login_controller = LoginController(login_page, self.auth_service, self.window)
         self.window.attach_login(login_page, self.login_controller)
+        from app.api.api_client import ApiClient
+        from app.api.device_api import DeviceApi
+        from app.api.license_api import LicenseApi
         from app.controllers.activation_controller import ActivationController
         from app.core.paths import bundle_root
-        from app.security.license_manager import LicenseManager
+        from app.security.credential_vault import CredentialVault
+        from app.security.device_session import DeviceSessionStore
         from app.security.license_verifier import LicenseVerifier
         from app.security.machine_id import get_machine_id
         from app.services.activation_service import ActivationService
+        from app.services.device_info_service import DeviceInfoService
+        from app.services.heartbeat_service import HeartbeatService
         from app.services.support_config_service import SupportConfigService
         from app.ui.pages.activation.activation_page import ActivationPage
 
         machine_id = get_machine_id()
         verifier = LicenseVerifier(bundle_root() / "app/assets/keys/license_public.pem")
-        self.license_manager = LicenseManager(verifier, machine_id, paths.root / "config/license.token")
+        api_client = ApiClient(os.getenv("API_BASE_URL", config.api_base_url))
+        self.device_vault = CredentialVault(paths.root / "config" / "vault")
+        self.device_sessions = DeviceSessionStore(paths.root / "config" / "activation.json")
+        self.license_manager = None  # legacy attribute retained for older integrations
+        self.heartbeat = HeartbeatService(
+            DeviceApi(api_client), self.device_vault, self.device_sessions, version, parent=self.window
+        )
         activation_page = ActivationPage(self.window)
         self.activation_controller = ActivationController(
             activation_page,
-            ActivationService(self.license_manager, machine_id),
+            ActivationService(
+                LicenseApi(api_client), machine_id, DeviceInfoService(version), self.device_vault,
+                self.device_sessions, verifier,
+            ),
             self.window,
             SupportConfigService(config.backend_base_url),
         )
@@ -63,6 +80,9 @@ class Application:
         self.studio = None
         self.window.authentication_successful.connect(self.open_studio)
         self.activation_controller.activation_successful.connect(self.open_studio)
+        self.heartbeat.active.connect(self._heartbeat_active)
+        self.heartbeat.access_changed.connect(self._heartbeat_access_changed)
+        self.heartbeat.network_error.connect(self._heartbeat_network_error)
         self.restore_worker: Worker | None = None
         self.access_timer = QTimer(self.window)
         self.access_timer.setInterval(60_000)
@@ -80,6 +100,9 @@ class Application:
             self.window.stack.addWidget(self.studio.view)
         self.studio.enter(identity)
         self.window.stack.setCurrentWidget(self.studio.view)
+        from app.security.device_session import DeviceSession
+        if isinstance(identity, DeviceSession):
+            self.heartbeat.start(identity)
 
     def release_media(self) -> None:
         if self.studio:
@@ -105,14 +128,36 @@ class Application:
         self.restore_worker = None
 
     def _restore_license(self) -> None:
-        from app.core.exceptions import LicenseError
+        from app.services.activation_service import DEVICE_TOKEN_KEY
 
-        try:
-            license = self.license_manager.load()
-        except LicenseError:
+        session = self.device_sessions.load()
+        if session is not None and self.device_vault.get(DEVICE_TOKEN_KEY):
+            self.heartbeat.start(session, immediate=True)
+
+    def _heartbeat_active(self, session: object) -> None:
+        if self.studio is None or self.window.stack.currentWidget() is not self.studio.view:
+            self.open_studio(session)
+        elif self.studio:
+            self.studio.apply_entitlements(session)
+
+    def _heartbeat_network_error(self, message: str) -> None:
+        if self.studio is None or self.window.stack.currentWidget() is not self.studio.view:
+            self.window.stack.setCurrentWidget(self.window.activation_page)
+            self.window.activation_page.toast.show_message(message, "error", duration_ms=0)
+
+    def _heartbeat_access_changed(self, code: str, message: str) -> None:
+        if code == "PLAN_DISABLED" and self.studio is not None:
+            self.studio.disable_entitlements()
+            self.studio.view.navigate("dashboard")
+            self.window.statusBar().showMessage(message, 10_000)
             return
-        if license is not None:
-            self.open_studio(license)
+        if self.studio:
+            self.studio.identity = None
+        if code == "USER_LOCKED":
+            self.sessions.clear()
+        page = self.window.login_page if code == "USER_LOCKED" else self.window.activation_page
+        self.window.stack.setCurrentWidget(page)
+        page.toast.show_message(message, "error", duration_ms=0)
 
     def _validate_current_access(self) -> None:
         if self.studio is None or self.window.stack.currentWidget() is not self.studio.view:
@@ -120,10 +165,14 @@ class Application:
         from app.core.exceptions import LicenseError
         from app.models.license import License
         from app.models.user import User
+        from app.security.device_session import DeviceSession
 
         identity = self.studio.identity
         valid = True
         message = ""
+        if isinstance(identity, DeviceSession):
+            self.heartbeat.check_now()
+            return
         if isinstance(identity, License):
             try:
                 valid = self.license_manager.load() is not None
@@ -147,6 +196,7 @@ class Application:
             self.login_controller.worker
             or self.restore_worker
             or self.activation_controller.worker
+            or self.heartbeat.worker
             or (self.studio and self.studio.busy())
         )
 

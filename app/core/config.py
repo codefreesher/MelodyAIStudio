@@ -15,6 +15,7 @@ class AppConfig:
     github_owner: str = ""
     github_repository: str = ""
     backend_base_url: str = ""
+    api_base_url: str = "https://agri.tainguyenso.vn/api/v1"
 
     @classmethod
     def load(cls, path: Path) -> "AppConfig":

@@ -20,11 +20,9 @@ class ProfileController(QObject):
         self.user: User | None = None
         self.dialog: ProfileDialog | None = None
         self.worker: Worker | None = None
-        sidebar.profile_requested.connect(self.open)
 
     def set_user(self, user: User | None) -> None:
         self.user = user
-        self.sidebar.profile_button.setEnabled(user is not None)
 
     def open(self) -> None:
         if self.user is None or self.worker is not None:

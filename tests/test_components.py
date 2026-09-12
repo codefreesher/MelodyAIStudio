@@ -60,6 +60,11 @@ class ComponentTests(unittest.TestCase):
         QTest.keyClick(search, Qt.Key.Key_Return)
         self.assertEqual(values, ["melody"])
         sidebar = Sidebar()
+        logouts = []
+        sidebar.logout_requested.connect(lambda: logouts.append(True))
+        self.assertEqual(sidebar.profile_button.toolTip(), "Đăng xuất")
+        sidebar.profile_button.click()
+        self.assertEqual(logouts, [True])
         first = sidebar.add_item("a", "A")
         second = sidebar.add_item("b", "B")
         sidebar.set_current("a")

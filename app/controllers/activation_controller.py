@@ -4,6 +4,7 @@ from PySide6.QtCore import QObject, QThreadPool, QUrl, Signal, Slot
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtWidgets import QApplication
 
+from app.api.api_client import ApiError
 from app.core.exceptions import LicenseError
 from app.services.activation_service import ActivationService
 from app.services.support_config_service import SupportConfigService, SupportLinks
@@ -87,7 +88,7 @@ class ActivationController(QObject):
     @Slot(object)
     def _error(self, error: Exception) -> None:
         self.page.toast.show_message(
-            str(error) if isinstance(error, LicenseError) else "Không thể kích hoạt. Vui lòng thử lại.",
+            str(error) if isinstance(error, (LicenseError, ApiError)) else "Không thể kích hoạt. Vui lòng thử lại.",
             "error",
         )
 

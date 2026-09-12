@@ -153,7 +153,7 @@ python scripts/package.py --iscc "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
 ```
 
 Đầu ra: `dist/MelodyAI/MelodyAI.exe` và
-`dist/installer/MelodyAI-Setup-0.1.0.exe` (version thực đọc từ VERSION).
+`dist/installer/MelodyAI-Setup-1.3.0.exe` (version thực đọc từ VERSION).
 Thêm `--require-public-key` khi build bản phân phối có license đã cấu hình.
 `--dry-run` cho build/package để xem command mà không chạy.
 

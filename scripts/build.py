@@ -42,11 +42,11 @@ def build_command() -> list[str]:
         "--add-data",
         f"{ROOT / 'app/ui/themes'}:app/ui/themes",
         "--add-data",
+        f"{ROOT / 'app/ui/pages'}:app/ui/pages",
+        "--add-data",
+        f"{ROOT / 'app/ui/widgets/sidebar_styles.qss'}:app/ui/widgets",
+        "--add-data",
         f"{ROOT / 'app/database/schema.sql'}:app/database",
-        "--add-data",
-        f"{ROOT / 'app/ui/pages/startup/startup_styles.qss'}:app/ui/pages/startup",
-        "--add-data",
-        f"{ROOT / 'app/ui/pages/login/login_styles.qss'}:app/ui/pages/login",
     ]
     if sys.platform == "win32":
         command += ["--icon", str(ROOT / "app/assets/icons/melodyai.ico")]
