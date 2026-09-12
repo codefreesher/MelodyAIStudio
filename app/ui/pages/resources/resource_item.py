@@ -110,19 +110,15 @@ class ResourceItem(QFrame):
                 version_label.setObjectName("resourceStatusVersion")
                 version_label.setAlignment(Qt.AlignmentFlag.AlignRight)
                 self.trailing_layout.addWidget(version_label)
-        elif configured:
+        else:
             self.menu_button = None
             button = QPushButton("Tải xuống")
             button.setObjectName("resourceDownloadButton")
             button.setCursor(Qt.CursorShape.PointingHandCursor)
+            if not configured:
+                button.setToolTip("Admin chưa cấu hình file tải và mã SHA-256 cho tài nguyên này.")
             button.clicked.connect(self.download_requested.emit)
             self.trailing_layout.addWidget(button)
-        else:
-            self.menu_button = None
-            label = QLabel("Chưa cấu hình")
-            label.setObjectName("resourceStatusUnconfigured")
-            label.setToolTip("Chưa có thông tin tải xuống.")
-            self.trailing_layout.addWidget(label)
 
     def _open_menu(self) -> None:
         menu = QMenu(self)

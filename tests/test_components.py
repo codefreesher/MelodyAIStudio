@@ -9,6 +9,7 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtTest import QTest
 from PySide6.QtWidgets import QApplication, QLineEdit, QWidget
 
+from app.ui.pages.resources.resource_item import ResourceItem
 from app.ui.themes.theme_manager import ThemeManager
 from app.ui.widgets.buttons import PrimaryButton
 from app.ui.widgets.cards import ResourceCard
@@ -89,6 +90,15 @@ class ComponentTests(unittest.TestCase):
         progress.reject()
         progress.reject()
         self.assertEqual(cancels, [True])
+
+    def test_unconfigured_resource_still_has_download_action(self) -> None:
+        item = ResourceItem({"id": "ollama", "name": "Ollama", "installed": False})
+        requested = []
+        item.download_requested.connect(lambda: requested.append(True))
+        button = item.findChild(QWidget, "resourceDownloadButton")
+        self.assertIsNotNone(button)
+        button.click()
+        self.assertEqual(requested, [True])
 
     def test_toast_overlay_and_gallery(self) -> None:
         host = QWidget()

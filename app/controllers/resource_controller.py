@@ -42,6 +42,13 @@ class ResourceController(QObject):
     def action(self, item: dict, action: str) -> None:
         if self.worker:
             return
+        if action in _DOWNLOAD_ACTIONS and not (item.get("url") and item.get("sha256")):
+            self.page.toast.show_message(
+                "Admin chưa cấu hình file tải và mã SHA-256 cho tài nguyên này.",
+                "error",
+                duration_ms=0,
+            )
+            return
         if action == "open":
             folder = self.service.root / item["id"]
             if folder.is_dir():
