@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="520" viewBox="0 0 560 520">
+<defs><linearGradient id="petal" x2="1" y2="1"><stop stop-color="#FFEFF6"/><stop offset="1" stop-color="#FF8DBD"/></linearGradient><linearGradient id="disc" x2="1" y2="1"><stop stop-color="#AD4679"/><stop offset="1" stop-color="#4C2844"/></linearGradient></defs>
+<circle cx="280" cy="260" r="202" fill="#FFF8FB" opacity=".65"/>
+<g fill="none" stroke="#DB94B5" stroke-width="3"><path d="M127 410Q70 258 168 125M428 417q70-180-28-272"/></g>
+<g fill="#E8B4CB"><ellipse cx="117" cy="334" rx="16" ry="37" transform="rotate(-45 117 334)"/><ellipse cx="115" cy="265" rx="15" ry="33" transform="rotate(35 115 265)"/><ellipse cx="439" cy="317" rx="15" ry="36" transform="rotate(45 439 317)"/><ellipse cx="437" cy="239" rx="15" ry="35" transform="rotate(-30 437 239)"/></g>
+<g transform="translate(280 267)"><circle r="142" fill="url(#disc)"/><g fill="none" stroke="#D78FB1" opacity=".35"><circle r="126"/><circle r="115"/><circle r="102"/><circle r="90"/><circle r="78"/></g><circle r="54" fill="#FFB5D4"/><circle r="9" fill="#FFF4F8"/></g>
+<g transform="translate(154 147)" fill="url(#petal)"><ellipse cy="-29" rx="25" ry="43"/><ellipse cy="-29" rx="25" ry="43" transform="rotate(72)"/><ellipse cy="-29" rx="25" ry="43" transform="rotate(144)"/><ellipse cy="-29" rx="25" ry="43" transform="rotate(216)"/><ellipse cy="-29" rx="25" ry="43" transform="rotate(288)"/><circle r="18" fill="#F5C78C"/></g>
+<g transform="translate(403 371)" fill="url(#petal)"><ellipse cy="-27" rx="23" ry="39"/><ellipse cy="-27" rx="23" ry="39" transform="rotate(72)"/><ellipse cy="-27" rx="23" ry="39" transform="rotate(144)"/><ellipse cy="-27" rx="23" ry="39" transform="rotate(216)"/><ellipse cy="-27" rx="23" ry="39" transform="rotate(288)"/><circle r="16" fill="#F5C78C"/></g>
+<g fill="none" stroke="#D94A8C" stroke-width="5" stroke-linecap="round"><path d="M391 133V88l29-7v44M391 98l29-7"/></g><g fill="#D94A8C"><ellipse cx="383" cy="135" rx="10" ry="7"/><ellipse cx="412" cy="127" rx="10" ry="7"/></g>
+<g fill="#F09EC3"><circle cx="87" cy="180" r="5"/><circle cx="445" cy="110" r="5"/><path d="m220 68 3 11 11 3-11 3-3 11-3-11-11-3 11-3Z"/><path d="m169 411 3 11 11 3-11 3-3 11-3-11-11-3 11-3Z"/></g>
+</svg>

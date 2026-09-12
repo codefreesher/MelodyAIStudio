@@ -1,0 +1,29 @@
+QPushButton#sidebarItem {
+    min-height: 30px; padding: 8px 12px; text-align: left;
+    border: 1px solid transparent; border-radius: 11px;
+    background: transparent; color: #312A33; font-weight: 500;
+}
+QPushButton#sidebarItem:hover {
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #FFF0F6,stop:0.55 #FFE5F0,stop:1 #FFF6FA);
+    border-color: #FFD0E3; color: #B92567;
+}
+QPushButton#sidebarItem:checked {
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,
+        stop:0 #FFBDD7,stop:0.28 #FF9FC8,stop:0.62 #FFD1E2,stop:1 #FFF0F6);
+    border-color: #FF77AE; color: #A71959; font-weight: 700;
+}
+QPushButton#sidebarItem:checked:hover {
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,
+        stop:0 #FFA9CC,stop:0.3 #FF82B6,stop:0.68 #FFC1DA,stop:1 #FFE7F1);
+    border-color: #FF4F9A;
+}
+QPushButton#sidebarItem:pressed {
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #FF8BBB,stop:0.5 #FF68A5,stop:1 #FFC0D9);
+    border-color: #E62E7D;
+}
+QLabel#sidebarProfileText { color: #332C35; font-size: 9.5pt; }
+QPushButton#sidebarProfileButton {
+    min-width: 30px; max-width: 30px; min-height: 30px; max-height: 30px;
+    padding: 0; border: none; border-radius: 15px; background: transparent;
+}
+QPushButton#sidebarProfileButton:hover { background: #FFE2EF; }

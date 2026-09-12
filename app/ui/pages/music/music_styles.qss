@@ -1,0 +1,37 @@
+QWidget#musicPage { background: #FFF9FB; }
+QLabel#musicHeadingIcon { color: #E2287B; font-size: 22pt; font-weight: 700; }
+QLabel#musicHeading { color: #28232B; font-size: 18pt; font-weight: 700; }
+QWidget#musicFormPanel, QWidget#musicResultPanel {
+    background: #FFFFFF; border: 1px solid #F1DDE6; border-radius: 16px;
+}
+QTabWidget#musicTabs::pane { border: none; background: transparent; top: 8px; }
+QTabWidget#musicTabs QTabBar { margin-bottom: 8px; }
+QTabWidget#musicTabs QTabBar::tab {
+    padding: 9px 15px; margin-right: 5px; border: 1px solid #F0DCE5;
+    border-radius: 9px; background: #FFF8FB; color: #786F78;
+}
+QTabWidget#musicTabs QTabBar::tab:selected {
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #FF4F9A,stop:1 #FF75AE);
+    color: #FFFFFF; border-color: #FF4F9A;
+}
+QPlainTextEdit#musicPrompt { min-height: 150px; background: #FFFFFF; border-radius: 10px; }
+QLabel#musicOptionLabel { color: #514951; font-size: 9.5pt; font-weight: 600; }
+QPushButton#musicGenerate {
+    min-height: 30px; color: #FFFFFF; font-size: 11pt; font-weight: 700;
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #FF4F9A,stop:0.55 #FF5CA1,stop:1 #F93B8C);
+}
+QPushButton#musicGenerate:hover { background: #FF6CAA; }
+QLabel#musicResultHeading { color: #28232B; font-size: 13pt; font-weight: 700; }
+QLabel#musicResultTitle { color: #342D35; font-size: 11pt; font-weight: 700; }
+QFrame#musicPlayer { border: none; border-radius: 12px; background: #FFF7FA; }
+QFrame#musicPlayer QLabel#musicPlayerTime { color: #817680; font-size: 8.5pt; }
+QFrame#musicPlayer QPushButton {
+    min-width: 28px; max-width: 28px; min-height: 28px; max-height: 28px;
+    border: none; padding: 0; background: transparent;
+}
+QFrame#musicPlayer QPushButton:hover { background: #FFE3EF; }
+QFrame#musicPlayer QPushButton#musicPlayButton {
+    min-width: 38px; max-width: 38px; min-height: 38px; max-height: 38px;
+    border-radius: 19px; background: #FF7DB4;
+}
+QFrame#musicPlayer QPushButton#musicPlayButton:hover { background: #FF4F9A; }

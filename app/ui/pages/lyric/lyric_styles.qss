@@ -1,0 +1,28 @@
+QWidget#lyricPage { background: #FFF9FB; }
+QLabel#lyricHeadingIcon { color: #E2287B; font-size: 20pt; font-weight: 700; }
+QLabel#lyricHeading { color: #28232B; font-size: 18pt; font-weight: 700; }
+QWidget#lyricFormPanel, QWidget#lyricResultPanel {
+    background: #FFFFFF; border: 1px solid #F1DDE6; border-radius: 16px;
+}
+QTabWidget#lyricTabs::pane, QTabWidget#lyricResultTabs::pane {
+    border: none; background: transparent; top: 8px;
+}
+QTabWidget#lyricTabs QTabBar, QTabWidget#lyricResultTabs QTabBar { margin-bottom: 8px; }
+QTabWidget#lyricTabs QTabBar::tab, QTabWidget#lyricResultTabs QTabBar::tab {
+    padding: 9px 14px; margin-right: 5px; border: 1px solid #F0DCE5;
+    border-radius: 9px; background: #FFF8FB; color: #786F78;
+}
+QTabWidget#lyricTabs QTabBar::tab:selected, QTabWidget#lyricResultTabs QTabBar::tab:selected {
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #FF4F9A,stop:1 #FF75AE);
+    color: #FFFFFF; border-color: #FF4F9A;
+}
+QPlainTextEdit#lyricPrompt { min-height: 165px; background: #FFFFFF; border-radius: 10px; }
+QLabel#lyricCharacterCount { color: #948B93; font-size: 8.5pt; }
+QLabel#lyricOptionLabel { color: #514951; font-size: 9.5pt; font-weight: 600; }
+QPushButton#lyricGenerate {
+    min-height: 30px; color: #FFFFFF; font-size: 11pt; font-weight: 700;
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,stop:0 #FF4F9A,stop:0.55 #FF5CA1,stop:1 #F93B8C);
+}
+QPushButton#lyricGenerate:hover { background: #FF6CAA; }
+QLabel#lyricResultHeading { color: #28232B; font-size: 13pt; font-weight: 700; }
+QPlainTextEdit#lyricResultEditor { background: #FFFFFF; border-radius: 10px; }

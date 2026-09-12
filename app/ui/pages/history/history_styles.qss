@@ -1,0 +1,53 @@
+QWidget#historyPage { background: #FFF9FB; }
+QLabel#historyHeading { color: #262229; font-size: 17pt; font-weight: 700; }
+
+QTabBar#historyTabs::tab {
+    padding: 7px 14px; margin-right: 5px; border: 1px solid #EEDFE6;
+    border-radius: 8px; background: #FFFFFF; color: #807780; font-size: 9.5pt; min-height: 20px;
+}
+QTabBar#historyTabs::tab:selected { background: #FF4F95; color: #FFFFFF; border-color: #FF4F95; font-weight: 600; }
+QTabBar#historyTabs::tab:hover:!selected { background: #FFF0F6; }
+
+QLineEdit#historySearch {
+    min-height: 38px; padding: 0 12px; border: 1px solid #EEDFE6; border-radius: 8px;
+    background: #FFFFFF; font-size: 9.5pt;
+}
+QLineEdit#historySearch:focus { border-color: #FF4F95; }
+/* Qt positions a QLineEdit's leading/trailing action icon using its own
+   default margins, computed against the *unstyled* natural height — not
+   this field's shorter QSS height — so without this override the icon
+   renders low/overflowing the box (see login_styles.qss for the source fix). */
+QLineEdit#historySearch QToolButton {
+    background: transparent; border: none; padding: 0; margin: 0;
+    min-width: 24px; min-height: 24px; icon-size: 16px;
+}
+QComboBox#historySort {
+    min-height: 22px; padding: 6px 10px; border: 1px solid #EEDFE6; border-radius: 8px;
+    background: #FFFFFF; font-size: 9.5pt;
+}
+QComboBox#historySort:hover { border-color: #FF75AE; }
+
+QFrame#historyItem { background: #FFFFFF; border: 1px solid #EEDFE6; border-radius: 10px; }
+QFrame#historyItem:hover { border-color: #FF75AE; }
+QLabel#historyItemAvatar { background: #FFF0F6; border-radius: 10px; }
+QLabel#historyItemTitle { color: #262229; font-size: 10.5pt; font-weight: 700; }
+QLabel#historyItemSubtitle { color: #807780; font-size: 9pt; }
+QPushButton#historyItemAction {
+    min-width: 28px; max-width: 28px; min-height: 28px; max-height: 28px;
+    border-radius: 14px; border: none; background: transparent; padding: 0;
+}
+QPushButton#historyItemAction:hover { background: #FFF0F6; }
+
+QPushButton#historyPagerArrow {
+    min-width: 28px; max-width: 28px; min-height: 28px; max-height: 28px;
+    border-radius: 14px; border: 1px solid #EEDFE6; background: #FFFFFF; padding: 0;
+}
+QPushButton#historyPagerArrow:hover:enabled { border-color: #FF75AE; background: #FFF0F6; }
+QPushButton#historyPagerArrow:disabled { background: #F7F0F3; }
+QPushButton#historyPageNumber {
+    min-width: 28px; max-width: 28px; min-height: 28px; max-height: 28px;
+    border-radius: 14px; border: 1px solid #EEDFE6; background: #FFFFFF;
+    color: #514951; font-size: 9.5pt; font-weight: 600; padding: 0;
+}
+QPushButton#historyPageNumber:checked { background: #FF4F95; color: #FFFFFF; border-color: #FF4F95; }
+QPushButton#historyPageNumber:hover:!checked { background: #FFF0F6; border-color: #FF75AE; }

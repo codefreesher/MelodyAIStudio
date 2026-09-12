@@ -1,0 +1,75 @@
+QWidget#imagePage { background: #FFF9FB; }
+QWidget#imageFormPanel { background: transparent; }
+
+QLabel#imageHeadingIcon { background: #FFE2EF; border-radius: 8px; }
+QLabel#imageHeading { color: #262229; font-size: 17pt; font-weight: 700; }
+QLabel#imageDemoBadge {
+    color: #B0296B; background: #FFF0F6; border: 1px solid #F6D3E4; border-radius: 8px;
+    padding: 1px 8px; font-size: 8pt; font-weight: 700;
+}
+
+QTabWidget#imageTabs::pane { border: none; background: transparent; top: 6px; }
+QTabWidget#imageTabs QTabBar { margin-bottom: 4px; }
+QTabWidget#imageTabs QTabBar::tab {
+    padding: 7px 14px; margin-right: 5px; border: 1px solid #EEDFE6;
+    border-radius: 8px; background: #FFFFFF; color: #807780; font-size: 9.5pt; min-height: 20px;
+}
+QTabWidget#imageTabs QTabBar::tab:selected {
+    background: #FF4F95; color: #FFFFFF; border-color: #FF4F95; font-weight: 600;
+}
+
+QPlainTextEdit#imagePrompt {
+    min-height: 84px; max-height: 108px; background: #FFFFFF; border: 1px solid #EBDDE4;
+    border-radius: 8px; padding: 12px; font-size: 10pt;
+}
+QPlainTextEdit#imagePrompt:focus { border-color: #FF4F95; }
+QLabel#imageCharacterCount { color: #807780; font-size: 8pt; }
+
+QPushButton#imagePickReference {
+    padding: 7px 14px; border: 1px dashed #F0B8D2; border-radius: 8px; background: #FFF0F6;
+    color: #FF4F95; font-size: 9.5pt; font-weight: 600;
+}
+QPushButton#imagePickReference:hover { background: #FFE2EF; }
+QWidget#imageReferenceChip { background: #FFF0F6; border: 1px solid #F6D3E4; border-radius: 8px; }
+QLabel#imageReferenceChipLabel { color: #262229; font-size: 9.5pt; }
+QPushButton#imageReferenceRemove {
+    min-width: 20px; max-width: 20px; min-height: 20px; max-height: 20px;
+    border-radius: 10px; border: none; background: transparent; padding: 0;
+}
+QPushButton#imageReferenceRemove:hover { background: #F6D3E4; }
+
+QLabel#imageOptionLabel { color: #514951; font-size: 9.5pt; font-weight: 600; }
+QComboBox#imageOptionField, QComboBox#imageAdvancedField, QLineEdit#imageAdvancedField {
+    min-height: 22px; padding: 6px 10px; border: 1px solid #EEDFE6; border-radius: 8px;
+    background: #FFFFFF; font-size: 9.5pt;
+}
+QComboBox#imageOptionField:hover, QComboBox#imageAdvancedField:hover, QLineEdit#imageAdvancedField:hover {
+    border-color: #FF75AE;
+}
+QLineEdit#imageAdvancedField:focus { border-color: #FF4F95; }
+
+QPushButton#imageGenerate {
+    min-height: 26px; color: #FFFFFF; font-size: 10.5pt; font-weight: 700;
+    background: #FF4F95; border: none; border-radius: 8px;
+}
+QPushButton#imageGenerate:hover { background: #F43E88; }
+QPushButton#imageGenerate:pressed { background: #E0227A; }
+
+QLabel#imageStatus { color: #807780; font-size: 9pt; font-style: italic; }
+
+QLabel#galleryTitle { color: #262229; font-size: 11pt; font-weight: 700; }
+QPushButton#galleryDownloadAll {
+    padding: 4px 10px; border: 1px solid #EEDFE6; border-radius: 7px; background: #FFFFFF;
+    color: #FF4F95; font-size: 8.5pt; font-weight: 600;
+}
+QPushButton#galleryDownloadAll:hover { background: #FFF0F6; border-color: #FF75AE; }
+
+QFrame#imageCard { background: #FFFFFF; border-radius: 8px; }
+QLabel#imageCardThumb { background: #FFF0F6; border-radius: 8px; }
+QWidget#imageCardOverlay { background: rgba(20, 12, 18, 0.55); border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+QPushButton#imageCardAction {
+    min-width: 24px; max-width: 24px; min-height: 24px; max-height: 24px;
+    border-radius: 12px; border: none; background: rgba(255, 255, 255, 0.18); padding: 0;
+}
+QPushButton#imageCardAction:hover { background: rgba(255, 255, 255, 0.32); }
+QFrame#imageCardSkeleton { background: #FFF0F6; border-radius: 8px; }

@@ -1,0 +1,37 @@
+QWidget#resourcePage { background: #FFF9FB; }
+QWidget#resourceContent { background: transparent; }
+
+QLabel#resourceHeadingIcon { background: #FFE2EF; border-radius: 8px; }
+QLabel#resourceHeading { color: #272329; font-size: 17pt; font-weight: 700; }
+QPushButton#resourceMenuButton {
+    min-width: 28px; max-width: 28px; min-height: 28px; max-height: 28px;
+    border-radius: 14px; border: 1px solid #F0DEE6; background: #FFFFFF; padding: 0;
+}
+QPushButton#resourceMenuButton:hover { background: #FFF0F6; border-color: #FF75AE; }
+
+QFrame#resourceItem { background: #FFFFFF; border: 1px solid #F0DEE6; border-radius: 10px; }
+QFrame#resourceItem:disabled { background: #FBF4F6; }
+QLabel#resourceItemIcon { background: #FFF0F6; border-radius: 10px; }
+QLabel#resourceItemName { color: #272329; font-size: 10.5pt; font-weight: 700; }
+QLabel#resourceItemDescription { color: #81747C; font-size: 9pt; }
+
+QLabel#resourceStatusInstalled {
+    background: #EAF8F0; color: #28B76B; border-radius: 8px; padding: 3px 10px;
+    font-size: 8.5pt; font-weight: 700;
+}
+QLabel#resourceStatusVersion { color: #81747C; font-size: 8.5pt; }
+QLabel#resourceStatusUnconfigured { color: #81747C; font-size: 8.5pt; font-style: italic; }
+
+QPushButton#resourceDownloadButton {
+    min-height: 20px; padding: 6px 16px; border-radius: 8px;
+    background: #FFF0F6; color: #FF4F95; border: 1px solid #FFD2E4; font-size: 9.5pt; font-weight: 700;
+}
+QPushButton#resourceDownloadButton:hover { background: #FFE2EF; border-color: #FF4F95; }
+QPushButton#resourceDownloadButton:pressed { background: #FFD2E4; }
+
+QWidget#installProgress QProgressBar#installProgressBar {
+    min-height: 8px; max-height: 8px; border-radius: 4px; background: #FFF0F6; border: none;
+}
+QWidget#installProgress QProgressBar#installProgressBar::chunk { background: #FF4F95; border-radius: 4px; }
+QLabel#installProgressPercent { color: #81747C; font-size: 8.5pt; min-width: 30px; }
+QPushButton#installProgressCancel[role="link"] { font-size: 8.5pt; }

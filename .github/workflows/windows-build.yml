@@ -1,0 +1,38 @@
+name: Windows desktop build
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-dev.txt
+      - name: Test
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: python -m unittest discover -s tests -v
+      - name: Workspace QA
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: python scripts/qa_workspace.py
+      - run: python scripts/build.py
+      - name: Smoke test EXE
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: dist\MelodyAI\MelodyAI.exe --smoke-test
+      - name: Compile installer
+        run: python scripts/package.py --iscc 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+      - name: Generate release manifest
+        shell: pwsh
+        run: python scripts/generate_manifest.py (Get-ChildItem dist/installer/*.exe).FullName --output dist/installer/release-manifest.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MelodyAI-Windows
+          path: dist/installer/*

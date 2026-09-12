@@ -1,0 +1,85 @@
+QWidget#offlineConfigPage { background: #FFF9FB; }
+QWidget#offlineProviderPanel { background: transparent; }
+QLabel#offlineConfigHeading { color: #29252A; font-size: 17pt; font-weight: 700; }
+
+QLabel#offlineFieldLabel { color: #29252A; font-size: 9.5pt; font-weight: 600; }
+
+QLineEdit#offlinePathInput, QLineEdit#offlineModelInput, QLineEdit#offlineAdvancedInput {
+    min-height: 38px; padding: 0 10px; border: 1px solid #EADDE3; border-radius: 8px;
+    background: #FFFFFF; font-size: 9.5pt; color: #29252A;
+}
+QLineEdit#offlinePathInput:focus, QLineEdit#offlineModelInput:focus, QLineEdit#offlineAdvancedInput:focus {
+    border-color: #FF4F95;
+}
+
+QPushButton#offlineBrowseButton {
+    min-width: 38px; max-width: 38px; min-height: 38px; max-height: 38px;
+    border-radius: 8px; border: 1px solid #EADDE3; background: #FFFFFF; padding: 0;
+}
+QPushButton#offlineBrowseButton:hover { background: #FFF0F6; border-color: #FF4F95; }
+
+QPushButton#offlineManageButton {
+    min-height: 38px; padding: 0 14px; border-radius: 8px; border: 1px solid #EADDE3;
+    background: #FFFFFF; color: #FF4F95; font-size: 9.5pt; font-weight: 600;
+}
+QPushButton#offlineManageButton:hover { background: #FFF0F6; border-color: #FF4F95; }
+
+QPushButton#advancedToggle {
+    text-align: left; border: none; background: transparent; padding: 2px 0;
+    color: #81767D; font-size: 9pt; font-weight: 600;
+}
+QPushButton#advancedToggle:hover { color: #FF4F95; }
+QWidget#advancedBody { background: transparent; }
+
+QPushButton#offlineSaveButton {
+    min-height: 24px; padding: 9px 16px; border-radius: 8px; border: none;
+    background: #FF4F95; color: #FFFFFF; font-size: 10.5pt; font-weight: 700;
+}
+QPushButton#offlineSaveButton:hover { background: #F43D88; }
+QPushButton#offlineSaveButton:pressed { background: #E0227A; }
+QPushButton#offlineSaveButton:disabled { background: #F6D3E4; color: #FFFFFF; }
+
+QLabel#offlineStatusMessage { color: #2CAE68; font-size: 8.5pt; }
+
+/* Status row (dot + text + Kiểm tra + ⋯) */
+QLabel#statusDotUnknown { color: #B9AEB4; font-size: 11pt; }
+QLabel#statusDotRunning { color: #29B86B; font-size: 11pt; }
+QLabel#statusDotStopped { color: #B9AEB4; font-size: 11pt; }
+QLabel#statusText { color: #29252A; font-size: 9.5pt; font-weight: 600; }
+QPushButton#statusTestButton {
+    min-height: 30px; padding: 0 14px; border-radius: 8px; border: 1px solid #EADDE3;
+    background: #FFFFFF; color: #FF4F95; font-size: 9.5pt; font-weight: 600;
+}
+QPushButton#statusTestButton:hover { background: #FFF0F6; border-color: #FF4F95; }
+QPushButton#statusMenuButton {
+    min-width: 30px; max-width: 30px; min-height: 30px; max-height: 30px;
+    border-radius: 15px; border: 1px solid #EADDE3; background: #FFFFFF; padding: 0;
+}
+QPushButton#statusMenuButton:hover { background: #FFF0F6; border-color: #FF4F95; }
+
+/* Model manager dialog */
+QDialog#modelManagerDialog { background: #FFF9FB; }
+QLabel#modelSectionLabel { color: #29252A; font-size: 9.5pt; font-weight: 700; }
+QListWidget#modelList { border: 1px solid #EADDE3; border-radius: 8px; background: #FFFFFF; }
+QWidget#modelListRow { background: transparent; }
+QLabel#modelItemName { color: #29252A; font-size: 9.5pt; font-weight: 600; }
+QLabel#modelItemSize { color: #81767D; font-size: 8.5pt; }
+QPushButton#modelDeleteButton {
+    padding: 3px 10px; border-radius: 6px; border: 1px solid #F6D3E4;
+    background: #FFF0F6; color: #FF4F95; font-size: 8.5pt; font-weight: 600;
+}
+QPushButton#modelDeleteButton:hover { background: #FFD2E4; }
+QLineEdit#modelPullInput {
+    min-height: 34px; padding: 0 10px; border: 1px solid #EADDE3; border-radius: 8px;
+    background: #FFFFFF; font-size: 9.5pt;
+}
+QPushButton#modelPullButton {
+    min-height: 34px; padding: 0 18px; border-radius: 8px; border: none;
+    background: #FF4F95; color: #FFFFFF; font-size: 9.5pt; font-weight: 700;
+}
+QPushButton#modelPullButton:hover { background: #F43D88; }
+QProgressBar#modelProgressBar {
+    min-height: 8px; max-height: 8px; border-radius: 4px; background: #FFF0F6; border: none;
+}
+QProgressBar#modelProgressBar::chunk { background: #FF4F95; border-radius: 4px; }
+QLabel#modelManagerStatus { color: #2CAE68; font-size: 8.5pt; }

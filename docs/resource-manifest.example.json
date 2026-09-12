@@ -1,0 +1,12 @@
+[
+  {
+    "id": "ffmpeg",
+    "name": "FFmpeg",
+    "description": "Example only: replace URL and SHA256 with a reviewed portable ZIP",
+    "version": "REPLACE_ME",
+    "url": "https://example.invalid/ffmpeg-portable.zip",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "archive_type": "zip",
+    "executable": "bin/ffmpeg.exe"
+  }
+]

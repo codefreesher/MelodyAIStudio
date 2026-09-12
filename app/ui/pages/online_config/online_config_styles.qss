@@ -1,0 +1,51 @@
+QWidget#onlineConfigPage { background: #FFF9FB; }
+QWidget#providerPanel { background: transparent; }
+
+QLabel#onlineConfigHeadingIcon { background: #FFE2EF; border-radius: 8px; }
+QLabel#onlineConfigHeading { color: #29252A; font-size: 17pt; font-weight: 700; }
+
+QPushButton#providerTab {
+    padding: 7px 14px; min-height: 20px; border: 1px solid transparent; border-radius: 8px;
+    background: #FFF0F6; color: #6F6770; font-size: 9.5pt; font-weight: 600;
+}
+QPushButton#providerTab:checked { background: #FF4F95; color: #FFFFFF; }
+QPushButton#providerTab:hover:!checked { background: #FFE2EF; }
+
+QLabel#providerFieldLabel { color: #29252A; font-size: 9.5pt; font-weight: 600; }
+
+QLineEdit#providerApiKey, QLineEdit#providerBaseUrl, QComboBox#providerModel {
+    min-height: 38px; padding: 0 10px; border: 1px solid #EADDE3; border-radius: 8px;
+    background: #FFFFFF; font-size: 9.5pt; color: #29252A;
+}
+/* Qt positions a QLineEdit's trailing action (the eye icon) using its own
+   default margins, computed against the *unstyled* natural height — not
+   this field's shorter QSS height — so without this override the icon
+   renders low/overflowing the box (see login_styles.qss for the same fix). */
+QLineEdit#providerApiKey QToolButton {
+    background: transparent; border: none; padding: 0; margin: 0;
+    min-width: 24px; min-height: 24px; icon-size: 18px;
+}
+QLineEdit#providerApiKey:focus, QLineEdit#providerBaseUrl:focus, QComboBox#providerModel:focus {
+    border-color: #FF4F95;
+}
+QLineEdit#providerApiKey:hover, QLineEdit#providerBaseUrl:hover, QComboBox#providerModel:hover {
+    border-color: #F43D88;
+}
+
+QPushButton#providerTestButton {
+    min-height: 38px; padding: 0 14px; border-radius: 8px; border: 1px solid #EADDE3;
+    background: #FFFFFF; color: #FF4F95; font-size: 9.5pt; font-weight: 600;
+}
+QPushButton#providerTestButton:hover { background: #FFF0F6; border-color: #FF4F95; }
+
+QCheckBox#providerDefaultToggle { color: #29252A; font-size: 9.5pt; spacing: 8px; }
+
+QPushButton#providerSaveButton {
+    min-height: 24px; padding: 9px 16px; border-radius: 8px; border: none;
+    background: #FF4F95; color: #FFFFFF; font-size: 10.5pt; font-weight: 700;
+}
+QPushButton#providerSaveButton:hover { background: #F43D88; }
+QPushButton#providerSaveButton:pressed { background: #E0227A; }
+QPushButton#providerSaveButton:disabled { background: #F6D3E4; color: #FFFFFF; }
+
+QLabel#providerStatus { color: #2CAE68; font-size: 8.5pt; }

@@ -1,0 +1,36 @@
+QWidget#startupPage { background: transparent; }
+QLabel#startupLogoName { font-size: 30pt; font-weight: 800; }
+QLabel#startupTagline { font-size: 14pt; color: {{muted}}; letter-spacing: 1px; }
+QLabel#startupHeadline { font-size: 14pt; font-weight: 500; color: #16142D; }
+QLabel#startupFooter { font-size: 10pt; color: {{muted}}; }
+QLabel#startupFooterTagline { font-size: 10pt; color: {{primary}}; font-style: italic; }
+QLabel#startupQuote { font-size: 15pt; font-style: italic; font-weight: 600; color: #FF438F; }
+QPushButton#startupAction {
+    min-height: 178px; min-width: 270px; background: rgba(255, 255, 255, 0.82);
+    border: 1px solid #F1D4E0; border-radius: 22px; padding: 0; text-align: left;
+}
+QPushButton#startupAction[variant="login"] {
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:1,stop:0 #FF72AE,stop:1 #FF3F91);
+    border-color: #FF3F91;
+}
+/* Both cards keep their base fill; interaction uses the same border and shadow.
+   Explicit variant selectors prevent the login fill from masking state rules. */
+QPushButton#startupAction:focus { border-width: 1px; padding: 0; }
+QPushButton#startupAction:hover,
+QPushButton#startupAction[variant="login"]:hover { border-color: {{secondary}}; }
+QPushButton#startupAction:pressed,
+QPushButton#startupAction[variant="login"]:pressed,
+QPushButton#startupAction[keyboardFocus="true"],
+QPushButton#startupAction[variant="login"][keyboardFocus="true"] { border-color: {{focus}}; }
+QPushButton#startupAction:disabled,
+QPushButton#startupAction[variant="login"]:disabled { background: {{disabled}}; border-color: {{border}}; }
+QLabel#actionTitle { font-size: 17pt; font-weight: 700; color: #16142D; }
+QLabel#actionDescription { font-size: 11pt; color: {{muted}}; }
+QPushButton#startupAction[variant="login"] QLabel#actionTitle,
+QPushButton#startupAction[variant="login"] QLabel#actionDescription { color: #FFFFFF; }
+QLabel#actionTitle:disabled, QLabel#actionDescription:disabled { color: {{disabled_text}}; }
+QLabel#cardIconAvatar, QLabel#cardArrowAvatar { border-radius: 22px; background: {{soft}}; }
+QLabel#cardArrowAvatar { border-radius: 16px; }
+QLabel#cardIconAvatar[variant="login"], QLabel#cardArrowAvatar[variant="login"] { background: rgba(255, 255, 255, 60); }
+QLabel#cardIconAvatar[variant="activation"], QLabel#cardArrowAvatar[variant="activation"] { background: #FFE4EF; }
+QLabel#cardIconAvatar:disabled, QLabel#cardArrowAvatar:disabled { background: {{disabled}}; }
