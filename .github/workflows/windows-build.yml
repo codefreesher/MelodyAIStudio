@@ -4,7 +4,7 @@ on:
   push:
     tags: ['v*']
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     runs-on: windows-latest
@@ -36,3 +36,11 @@ jobs:
         with:
           name: MelodyAI-Windows
           path: dist/installer/*
+      - name: Attach installer to GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $version = (Get-Content VERSION -Raw).Trim()
+          $assets = (Get-ChildItem dist/installer/*).FullName
+          gh release upload "v$version" $assets --clobber
