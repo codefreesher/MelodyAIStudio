@@ -11,6 +11,7 @@ from app.controllers.profile_controller import ProfileController
 from app.controllers.resource_controller import ResourceController
 from app.controllers.settings_controller import SettingsController
 from app.controllers.update_controller import UpdateController
+from app.core.constants import UPDATE_OWNER, UPDATE_REPOSITORY
 from app.database.database import Database
 from app.database.repositories.history_repository import HistoryRepository
 from app.database.repositories.settings_repository import SettingsRepository
@@ -144,11 +145,17 @@ class StudioRuntime:
         self.controllers.append(self.settings_controller)
         self.view.register("settings", settings_page)
         updates = UpdatePage(application.qt.applicationVersion())
+        # A developer override (config/app.json) still wins over the
+        # built-in default — see app/core/constants.py.
+        update_owner = application.config.github_owner or UPDATE_OWNER
+        update_repository = application.config.github_repository or UPDATE_REPOSITORY
         self.update_controller = UpdateController(
             updates,
             UpdateService(
                 application.qt.applicationVersion(), self.settings_service.folder("downloads"), self.settings
             ),
+            update_owner,
+            update_repository,
         )
         self.update_controller.can_install = lambda: not self.busy()
         self.update_controller.installer_started.connect(application.window.close)
@@ -165,12 +172,8 @@ class StudioRuntime:
         self.dashboard.greeting.setText(f"Xin chào, {username}!")
         self.view.navigate("dashboard")
         preferences = self.settings_service.load()
-        if (
-            preferences.get("auto_update")
-            and self.update_controller.page.owner.text()
-            and self.update_controller.page.repository.text()
-        ):
-            QTimer.singleShot(1000, lambda: self.update_controller.action("check"))
+        if preferences.get("auto_update") and self.update_controller.owner and self.update_controller.repository:
+            QTimer.singleShot(1000, self.update_controller.check)
 
     def profile_updated(self, user: User) -> None:
         self.identity = user
