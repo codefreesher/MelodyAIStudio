@@ -140,9 +140,9 @@ class ImagePage(QWidget):
         heading.setObjectName("imageHeading")
         row.addWidget(icon)
         row.addWidget(heading)
-        badge = QLabel("Demo")
+        badge = QLabel("Local")
         badge.setObjectName("imageDemoBadge")
-        badge.setToolTip("Chế độ demo: tạo kết quả mẫu cục bộ, chưa gọi API thật.")
+        badge.setToolTip("Tạo ảnh bằng engine Stable Diffusion trên máy.")
         row.addWidget(badge)
         row.addStretch(1)
         return row

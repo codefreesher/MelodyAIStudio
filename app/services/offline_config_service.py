@@ -37,8 +37,24 @@ class OfflineConfigService:
     def test(self, name: str, data: dict) -> str:
         url = self._url(data)
         endpoint = (
-            "/api/tags" if name == "Ollama" else "/sdapi/v1/sd-models" if name == "Stable Diffusion" else ""
+            "/api/tags"
+            if name == "Ollama"
+            else "/sdapi/v1/sd-models"
+            if name == "Stable Diffusion"
+            else ""
         )
+        if name == "TTS Local":
+            executable = data.get("executable", "")
+            model = data.get("model", "")
+            models_folder = data.get("models_folder", "")
+            from pathlib import Path
+
+            model_path = Path(model)
+            if not model_path.is_absolute():
+                model_path = Path(models_folder) / model_path
+            if not Path(executable).is_file() or not model_path.is_file():
+                raise ValueError("Executable hoặc voice model TTS không tồn tại.")
+            return "Ready · Piper local"
         response = httpx.get(url + endpoint, timeout=10)
         response.raise_for_status()
         if name == "Ollama":

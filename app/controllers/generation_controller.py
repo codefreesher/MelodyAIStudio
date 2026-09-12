@@ -53,7 +53,7 @@ class GenerationController(QObject):
         self.result = result
         texts = [path.read_text(encoding="utf-8") for path in result.paths] if result.type == "lyric" else []
         self.page.show_result(result, texts)
-        self.page.toast.show_message("Đã tạo kết quả demo. Nhấn Lưu lịch sử để lưu dự án.", "success")
+        self.page.toast.show_message("Đã tạo kết quả. Nhấn Lưu lịch sử để lưu dự án.", "success")
 
     @Slot(object)
     def _error(self, error: Exception) -> None:
@@ -121,7 +121,7 @@ class GenerationController(QObject):
                         Path(path).read_text(encoding="utf-8")
                     )
                 elif self.page.kind == "image":
-                    self.page.toast.show_message("Đã chọn ảnh tham khảo; mock không phân tích ảnh.")
+                    self.page.toast.show_message("Đã chọn ảnh tham khảo.")
                     self.page.prompts[1].setPlainText(f"Ảnh tham khảo: {Path(path).name}")
                     self.page.tabs.setCurrentIndex(1)
             except (OSError, ValueError):

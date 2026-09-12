@@ -11,5 +11,5 @@ class Generation:
     title: str
     prompt: str
     paths: list[Path]
-    provider: str = "Mock"
+    provider: str = "Local"
     metadata: dict = field(default_factory=dict)

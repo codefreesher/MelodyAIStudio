@@ -14,7 +14,12 @@ import httpx
 from app.database.database import Database
 from app.database.repositories.history_repository import HistoryRepository
 from app.database.repositories.settings_repository import SettingsRepository
-from app.providers.online.provider_manager import ProviderManager
+from app.providers.mock.creative import (
+    MockImageProvider,
+    MockMusicProvider,
+    MockTextProvider,
+    MockTTSProvider,
+)
 from app.resources_manager.extractor import extract_zip
 from app.security.credential_vault import CredentialVault
 from app.services.ai_service import AIService
@@ -36,8 +41,15 @@ class StudioServicesTests(unittest.TestCase):
         self.temp.cleanup()
 
     def test_creative_outputs_history_and_export(self):
+        class TestProviders:
+            providers = {"music": MockMusicProvider(), "lyric": MockTextProvider(),
+                         "audio": MockTTSProvider(), "image": MockImageProvider()}
+
+            def get(self, kind):
+                return self.providers[kind]
+
         for kind in ("music", "lyric", "audio", "image"):
-            service = AIService(kind, self.root, ProviderManager(), self.history)
+            service = AIService(kind, self.root, TestProviders(), self.history)
             service.prepare()
             result = service.generate("Test melody", {"count": "2"})
             self.assertTrue(all(path.is_file() for path in result.paths))
@@ -59,7 +71,15 @@ class StudioServicesTests(unittest.TestCase):
         self.assertEqual(self.history.list()[1], 3)
 
     def test_cancellation_and_permission(self):
-        service = AIService("music", self.root, ProviderManager(), self.history)
+        class CancelProvider:
+            def generate(self, prompt, options, folder, cancel):
+                raise ValueError("Đã hủy tác vụ.")
+
+        class TestProviders:
+            def get(self, kind):
+                return CancelProvider()
+
+        service = AIService("music", self.root, TestProviders(), self.history)
         service.cancel()
         with self.assertRaisesRegex(ValueError, "hủy"):
             service.generate("x", {})

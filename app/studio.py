@@ -89,7 +89,7 @@ class StudioRuntime:
         self.view.register("dashboard", self.dashboard)
         self.dashboard.navigate.connect(self.view.navigate)
         self.dashboard.search_requested.connect(self.search)
-        providers = ProviderManager()
+        providers = ProviderManager(self.settings)
         for kind in ("music", "lyric", "audio", "image"):
             if kind == "music":
                 page = MusicPage()
