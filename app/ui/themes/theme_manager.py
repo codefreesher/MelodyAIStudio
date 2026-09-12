@@ -62,6 +62,9 @@ class ThemeManager:
         stylesheet += "\n" + (
             Path(__file__).resolve().parents[1] / "pages/updates/update_styles.qss"
         ).read_text(encoding="utf-8")
+        stylesheet += "\n" + (
+            Path(__file__).resolve().parents[1] / "pages/settings/settings_styles.qss"
+        ).read_text(encoding="utf-8")
         stylesheet += "\n" + (Path(__file__).resolve().parents[1] / "widgets/sidebar_styles.qss").read_text(
             encoding="utf-8"
         )

@@ -1,76 +1,80 @@
-"""Application preferences and storage maintenance controls."""
+"""Compact, card-based Settings — compact pill tabs over four sub-pages
+instead of one long full-width form.
+
+Keeps the exact signal/method surface SettingsController already drives
+(``save_requested``, ``action``, ``folder_action``, ``toast``,
+``set_values()``) so the controller needed only additive changes (reading
+folder paths for display, mapping check-update) — see settings_controller.py.
+"""
 
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QCheckBox, QFormLayout, QHBoxLayout, QLabel, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QLabel, QStackedWidget, QVBoxLayout, QWidget
 
-from app.ui.widgets.buttons import OutlineButton, PrimaryButton
-from app.ui.widgets.dropdown import ComboBox
-from app.ui.widgets.inputs import TextInput
+from app.ui.pages.online_config.provider_tabs import ProviderTabs
+from app.ui.pages.settings.advanced_settings import AdvancedSettings
+from app.ui.pages.settings.appearance_settings import AppearanceSettings
+from app.ui.pages.settings.general_settings import GeneralSettings
+from app.ui.pages.settings.storage_settings import StorageSettings
 from app.ui.widgets.toast import Toast
+
+_TABS = ("Tổng quan", "Giao diện", "Lưu trữ", "Nâng cao")
 
 
 class SettingsPage(QWidget):
     save_requested = Signal(dict)
     action = Signal(str)
     folder_action = Signal(str, str)
+    check_update_requested = Signal()
 
     def __init__(self) -> None:
         super().__init__()
+        self.setObjectName("settingsPage")
         root = QVBoxLayout(self)
-        title = QLabel("Cài đặt")
-        title.setProperty("role", "heading")
-        root.addWidget(title)
-        self.toast = Toast()
+        root.setContentsMargins(24, 20, 24, 24)
+        root.setSpacing(14)
+
+        heading = QLabel("Cài đặt")
+        heading.setObjectName("settingsHeading")
+        root.addWidget(heading)
+
+        self.toast = Toast(plain=True)
         root.addWidget(self.toast)
-        form = QFormLayout()
-        root.addLayout(form)
-        self.theme = ComboBox(["pink_light", "pink_dark", "system"])
-        self.accent = TextInput("#FF4F9A")
-        self.language = ComboBox(["vi", "en"])
-        self.auto_update = QCheckBox("Tự kiểm tra cập nhật")
-        self.start_windows = QCheckBox("Khởi động cùng Windows")
-        for name, widget in [
-            ("Giao diện", self.theme),
-            ("Màu chủ đạo", self.accent),
-            ("Ngôn ngữ", self.language),
-            ("Chung", self.auto_update),
-            ("", self.start_windows),
-        ]:
-            form.addRow(name, widget)
-        save = PrimaryButton("Lưu cài đặt")
-        save.clicked.connect(lambda: self.save_requested.emit(self.values()))
-        root.addWidget(save)
-        for name in ["projects", "downloads", "models", "cache"]:
-            row = QHBoxLayout()
-            row.addWidget(QLabel(name), 1)
-            for action, caption in [("open", "Mở thư mục"), ("change", "Đổi thư mục")]:
-                button = OutlineButton(caption)
-                button.clicked.connect(lambda checked=False, n=name, a=action: self.folder_action.emit(n, a))
-                row.addWidget(button)
-            root.addLayout(row)
-        for key, caption in [
-            ("clear_credentials", "Xóa credentials"),
-            ("clear_session", "Xóa session / Đăng xuất"),
-            ("clear_cache", "Xóa cache"),
-            ("logs", "Xem logs"),
-        ]:
-            button = OutlineButton(caption)
-            button.clicked.connect(lambda checked=False, action=key: self.action.emit(action))
-            root.addWidget(button)
-        root.addStretch()
+
+        self.tabs = ProviderTabs(list(_TABS))
+        self.tabs.setObjectName("settingsTabs")
+        root.addWidget(self.tabs)
+
+        content = QWidget()
+        content.setObjectName("settingsContent")
+        content.setMaximumWidth(960)
+        content_layout = QVBoxLayout(content)
+        content_layout.setContentsMargins(0, 4, 0, 0)
+
+        self.stack = QStackedWidget()
+        self.general = GeneralSettings()
+        self.appearance = AppearanceSettings()
+        self.storage = StorageSettings()
+        self.advanced = AdvancedSettings()
+        for page in (self.general, self.appearance, self.storage, self.advanced):
+            self.stack.addWidget(page)
+        content_layout.addWidget(self.stack)
+        root.addWidget(content)
+        root.addStretch(1)
+
+        self.tabs.changed.connect(lambda name: self.stack.setCurrentIndex(_TABS.index(name)))
+
+        self.general.changed.connect(self._save)
+        self.appearance.changed.connect(self._save)
+        self.general.check_update_requested.connect(self.check_update_requested.emit)
+        self.storage.folder_action.connect(self.folder_action.emit)
+        self.advanced.action_requested.connect(self.action.emit)
+
+    def _save(self) -> None:
+        self.save_requested.emit(self.values())
 
     def values(self) -> dict:
-        return {
-            "theme": self.theme.currentText(),
-            "accent": self.accent.text(),
-            "language": self.language.currentText(),
-            "auto_update": self.auto_update.isChecked(),
-            "start_windows": self.start_windows.isChecked(),
-        }
+        return {**self.general.values(), **self.appearance.values()}
 
     def set_values(self, data: dict) -> None:
-        self.theme.setCurrentText(data.get("theme", "pink_light"))
-        self.accent.setText(data.get("accent", "#FF4F9A"))
-        self.language.setCurrentText(data.get("language", "vi"))
-        self.auto_update.setChecked(data.get("auto_update", True))
-        self.start_windows.setChecked(data.get("start_windows", False))
+        self.general.set_values(data)
+        self.appearance.set_values(data)

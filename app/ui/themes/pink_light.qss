@@ -66,6 +66,15 @@ QLineEdit, QTextEdit, QPlainTextEdit, QAbstractSpinBox, QComboBox {
 QLineEdit:hover, QTextEdit:hover, QPlainTextEdit:hover, QAbstractSpinBox:hover, QComboBox:hover { border-color: {{secondary}}; }
 QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus, QAbstractSpinBox:focus, QComboBox:focus { border-color: {{focus}}; }
 QLineEdit:read-only, QTextEdit:read-only, QPlainTextEdit:read-only { background: {{sidebar}}; }
+/* Qt positions a QLineEdit's built-in action icon (clear button, eye
+   toggle, etc.) using its own default margins, computed against the
+   *unstyled* natural height — not this app's shorter QSS field height —
+   so without this override the icon renders low/overflowing the box on
+   every compact QLineEdit app-wide (fixed here once instead of per page). */
+QLineEdit QToolButton {
+    background: transparent; border: none; padding: 0; margin: 0;
+    min-width: 22px; min-height: 22px; icon-size: 16px;
+}
 QLineEdit:disabled, QTextEdit:disabled, QPlainTextEdit:disabled, QAbstractSpinBox:disabled, QComboBox:disabled {
     background: {{disabled}}; color: {{disabled_text}}; border-color: {{border}};
 }

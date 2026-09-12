@@ -1,0 +1,70 @@
+QWidget#settingsPage { background: #FFF9FB; }
+QWidget#settingsContent { background: transparent; }
+QLabel#settingsHeading { color: #29252A; font-size: 17pt; font-weight: 700; }
+
+/* Scoped to this page's tab bar only (QWidget#settingsTabs) — ProviderTabs
+   is shared with Online/Offline config, whose tabs keep their own (pink
+   fill, white text) look; Settings uses the reference's softer pink-tint
+   style instead, so this must not touch the bare #providerTab selector. */
+QWidget#settingsTabs QPushButton#providerTab {
+    padding: 7px 14px; min-height: 20px; border: 1px solid transparent; border-radius: 8px;
+    background: transparent; color: #6F6770; font-size: 9.5pt; font-weight: 600;
+}
+QWidget#settingsTabs QPushButton#providerTab:checked { background: #FFF0F6; color: #E83E83; }
+QWidget#settingsTabs QPushButton#providerTab:hover:!checked { background: #FFF6FA; }
+
+QFrame#settingCard { background: #FFFFFF; border: 1px solid #EEDDE5; border-radius: 12px; }
+QFrame#settingCard[role="card"] { background: #FFFFFF; }
+QLabel#settingCardTitle { color: #29252A; font-size: 11pt; font-weight: 700; }
+QFrame#settingCardDivider { background: #F3E6EB; border: none; }
+
+QLabel#settingRowIcon { background: #FFF0F6; border-radius: 8px; }
+QLabel#settingRowTitle { color: #29252A; font-size: 10pt; font-weight: 600; }
+QLabel#settingRowDescription { color: #81767D; font-size: 8.5pt; }
+QLabel#settingValue { color: #29252A; font-size: 10pt; font-weight: 700; }
+
+QComboBox#settingsCombo {
+    min-height: 30px; min-width: 200px; max-width: 260px; padding: 0 10px;
+    border: 1px solid #EADDE3; border-radius: 8px; background: #FFFFFF; font-size: 9.5pt;
+}
+QComboBox#settingsCombo:hover { border-color: #FF75AE; }
+
+QPushButton#settingsCheckUpdate {
+    min-height: 20px; padding: 8px 16px; border-radius: 8px; border: 1px solid #EADDE3;
+    background: #FFFFFF; color: #FF4F95; font-size: 9.5pt; font-weight: 600;
+}
+QPushButton#settingsCheckUpdate:hover { background: #FFF0F6; border-color: #FF4F95; }
+
+/* Theme mode cards — _ModeCard is a plain QFrame, so "checked" is a dynamic
+   property (attribute selector), not the native :checked pseudo-state. */
+QFrame#themeModeCard { background: #FFFFFF; border: 1.5px solid #EEDDE5; border-radius: 10px; }
+QFrame#themeModeCard[checked="true"] { border-color: #FF4F95; background: #FFF0F6; }
+QFrame#themeModeCard[checked="false"]:hover { border-color: #FF9AC4; }
+QLabel#themeModeLabel { color: #29252A; font-size: 9pt; font-weight: 600; background: transparent; }
+
+QLabel#accentSelectedLabel { font-size: 9.5pt; font-weight: 700; }
+QFrame#appearancePreview { background: transparent; border: none; }
+
+/* Storage */
+QLabel#pathSelectorTitle { color: #29252A; font-size: 10pt; font-weight: 700; }
+QLabel#pathSelectorDescription { color: #81767D; font-size: 8.5pt; }
+QLabel#pathSelectorPath {
+    color: #81767D; font-size: 8.5pt; background: #FFF9FB; border-radius: 6px; padding: 4px 8px;
+}
+QPushButton#pathSelectorButton {
+    min-height: 18px; padding: 5px 12px; border-radius: 7px; border: 1px solid #EADDE3;
+    background: #FFFFFF; color: #FF4F95; font-size: 8.5pt; font-weight: 600;
+}
+QPushButton#pathSelectorButton:hover { background: #FFF0F6; border-color: #FF4F95; }
+
+/* Advanced / danger zone */
+QLabel#dangerZoneLabel { color: #E65B72; font-size: 9pt; font-weight: 700; letter-spacing: 0.5px; }
+QFrame#dangerZoneCard { background: #FFF7F8; border: 1px solid #F5C7CE; border-radius: 12px; }
+QLabel#dangerRowTitle { color: #29252A; font-size: 10pt; font-weight: 700; }
+QLabel#dangerRowDescription { color: #81767D; font-size: 8.5pt; }
+QPushButton#dangerActionButton {
+    min-height: 20px; padding: 8px 16px; border-radius: 8px; border: 1px solid #E65B72;
+    background: #FFFFFF; color: #E65B72; font-size: 9.5pt; font-weight: 600;
+}
+QPushButton#dangerActionButton:hover { background: #FDEBEC; }
+QPushButton#dangerActionButton:pressed { background: #FBD9DC; }

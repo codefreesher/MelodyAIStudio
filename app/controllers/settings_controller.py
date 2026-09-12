@@ -23,6 +23,11 @@ class SettingsController(QObject):
         page.action.connect(self.action)
         page.folder_action.connect(self.folder)
         page.set_values(service.load())
+        self._refresh_paths()
+
+    def _refresh_paths(self) -> None:
+        for name in ("projects", "downloads", "models", "cache"):
+            self.page.storage.set_path(name, str(self.service.folder(name)))
 
     def save(self, data: dict) -> None:
         try:
@@ -41,6 +46,7 @@ class SettingsController(QObject):
             if path:
                 try:
                     self.service.set_folder(name, Path(path))
+                    self._refresh_paths()
                     self.changed.emit()
                 except OSError:
                     self.page.toast.show_message("Không thể ghi thư mục.", "error")

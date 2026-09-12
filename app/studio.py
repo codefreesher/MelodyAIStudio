@@ -161,6 +161,8 @@ class StudioRuntime:
         self.update_controller.installer_started.connect(application.window.close)
         self.controllers.append(self.update_controller)
         self.view.register("updates", updates)
+        settings_page.check_update_requested.connect(lambda: self.view.navigate("updates"))
+        settings_page.check_update_requested.connect(self.update_controller.check)
         self.view.route_changed.connect(self.refresh)
         self.preferences_changed()
 
